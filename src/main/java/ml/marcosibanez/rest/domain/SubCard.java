@@ -7,11 +7,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import com.sun.istack.NotNull;
+
 
 @Entity
-@Table(name = "sub-card")
+@Table(name = "subcard")
 public class SubCard implements Serializable {
     private static final long serialVersionUID = 1L;
 	

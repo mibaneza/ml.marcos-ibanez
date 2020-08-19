@@ -11,13 +11,14 @@ import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import ml.marcosibanez.rest.service.dto.ContactDTO;
-import com.sun.istack.NotNull;
+
 
 @Entity
 public class Contact implements Serializable {
