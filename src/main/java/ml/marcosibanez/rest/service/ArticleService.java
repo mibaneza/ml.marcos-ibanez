@@ -58,6 +58,10 @@ public class ArticleService {
 		for(ParrafoDTO parrafoDto : parrafoDTO) {
 			Parrafo parrafo = new Parrafo(parrafoDto.getOrders(),parrafoDto.getContent());
 			parrafo.setFkarticle(articles.getId());
+			parrafo.setLinkcodetop(parrafoDto.getLinkcodetop());
+			parrafo.setLinkimgtop(parrafoDto.getLinkimgtop());
+			parrafo.setLinkcodebot(parrafoDto.getLinkcodebot());
+			parrafo.setLinkimgbot(parrafoDto.getLinkimgbot());
 			parrafos.add(parrafo);
 		}
 		try {
@@ -119,6 +123,10 @@ public class ArticleService {
 			Parrafo parrafo = new Parrafo(parrafoF.getOrder(),parrafoDto.getContent());
 			parrafo.setFkarticle(parrafoF.getFkarticle());
 			parrafo.setId(parrafoF.getId());
+			parrafo.setLinkcodetop(parrafoF.getLinkcodetop());
+			parrafo.setLinkimgtop(parrafoF.getLinkimgtop());
+			parrafo.setLinkcodebot(parrafoF.getLinkcodebot());
+			parrafo.setLinkimgbot(parrafoF.getLinkimgbot());
 			parrafos.add(parrafo);
 		}
 		try {

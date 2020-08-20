@@ -12,26 +12,35 @@ import javax.persistence.Table;
 @Entity
 @Table
 public class Parrafo implements Serializable {
-    private static final long serialVersionUID = 2405172041950251807L;
-    
+	private static final long serialVersionUID = 2405172041950251807L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private Long orderp;
+	
+	private String linkcodetop;
+
+	private String linkimgtop;
 	
 	@Column(length = 65535, columnDefinition = "text")
 	private String content;
-	
+
+	private String linkcodebot;
+
+	private String linkimgbot;
+
 	@Column(name = "fk_article")
 	private Long fkarticle;
-	
-	public Parrafo( Long order, String content) {
+
+	public Parrafo(Long order, String content) {
 		this.orderp = order;
 		this.content = content;
 	}
 
-	public Parrafo() {}
+	public Parrafo() {
+	}
 
 	public Long getId() {
 		return id;
@@ -63,6 +72,38 @@ public class Parrafo implements Serializable {
 
 	public void setOrder(Long order) {
 		this.orderp = order;
+	}
+
+	public String getLinkcodetop() {
+		return linkcodetop;
+	}
+
+	public void setLinkcodetop(String linkcodetop) {
+		this.linkcodetop = linkcodetop;
+	}
+
+	public String getLinkimgtop() {
+		return linkimgtop;
+	}
+
+	public void setLinkimgtop(String linkimgtop) {
+		this.linkimgtop = linkimgtop;
+	}
+
+	public String getLinkcodebot() {
+		return linkcodebot;
+	}
+
+	public void setLinkcodebot(String linkcodebot) {
+		this.linkcodebot = linkcodebot;
+	}
+
+	public String getLinkimgbot() {
+		return linkimgbot;
+	}
+
+	public void setLinkimgbot(String linkimgbot) {
+		this.linkimgbot = linkimgbot;
 	}
 
 }

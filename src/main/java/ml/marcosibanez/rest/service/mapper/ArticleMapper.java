@@ -11,22 +11,18 @@ import ml.marcosibanez.rest.domain.Parrafo;
 import ml.marcosibanez.rest.service.dto.ArticleDTO;
 import ml.marcosibanez.rest.service.dto.ParrafoDTO;
 
-
-
-
-
-@Component 
+@Component
 public class ArticleMapper {
-	
-	public List<ArticleDTO> mapper (List<Article> articles){
-		
+
+	public List<ArticleDTO> mapper(List<Article> articles) {
+
 		List<ArticleDTO> articleDTOs = new ArrayList<>();
-		for(Article article : articles){
-			ArticleDTO	articleDTO = new ArticleDTO(article);
+		for (Article article : articles) {
+			ArticleDTO articleDTO = new ArticleDTO(article);
 			List<Parrafo> parrafos = article.getSection();
 			List<ParrafoDTO> parrafoDTOs = new ArrayList<>();
-			
-			for(Parrafo parrafo : parrafos) {
+
+			for (Parrafo parrafo : parrafos) {
 				parrafoDTOs.add(new ParrafoDTO(parrafo));
 			}
 			articleDTO.setSectionr(parrafoDTOs);
@@ -34,18 +30,16 @@ public class ArticleMapper {
 		}
 		return articleDTOs;
 	}
-public ArticleDTO mapperByOne (Article article){
-		
-			ArticleDTO	articleDTO = new ArticleDTO(article);
-			List<Parrafo> parrafos = article.getSection();
-			List<ParrafoDTO> parrafoDTOs = new ArrayList<>();
-			
-			for(Parrafo parrafo : parrafos) {
-				parrafoDTOs.add(new ParrafoDTO(parrafo));
-			}
-			articleDTO.setSectionr(parrafoDTOs);
-		
-		
+
+	public ArticleDTO mapperByOne(Article article) {
+		ArticleDTO articleDTO = new ArticleDTO(article);
+		List<Parrafo> parrafos = article.getSection();
+		List<ParrafoDTO> parrafoDTOs = new ArrayList<>();
+
+		for (Parrafo parrafo : parrafos) {
+			parrafoDTOs.add(new ParrafoDTO(parrafo));
+		}
+		articleDTO.setSectionr(parrafoDTOs);
 		return articleDTO;
 	}
 
