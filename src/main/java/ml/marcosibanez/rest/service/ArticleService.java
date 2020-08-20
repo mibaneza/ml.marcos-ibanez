@@ -83,7 +83,15 @@ public class ArticleService {
 		articleDTOs  = articleMapper.mapper(articles);
 		return articleDTOs;
 	}
-
+	@Transactional
+	public ArticleDTO findByLinkarticle(String linkarticle) throws MensajeException {
+		ArticleDTO articleDTO;
+			article =  articleRepository.findByLinkarticle(linkarticle)
+					.orElseThrow(() -> new NotFountException("SNOT-404-1", "Article_NOT_FOUND"));
+	
+		articleDTO  = articleMapper.mapperByOne(article);
+		return articleDTO;
+	}
 	
 	public ArticleDTO updateArticle(ArticleDTO articleDTO) throws MensajeException {
 		

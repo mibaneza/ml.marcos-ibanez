@@ -46,6 +46,14 @@ public class ArticleResource {
 		return new MensajeResponse<>(SUCCES, String.valueOf(HttpStatus.OK), OK,
 				articleService.findAllArticle());
 	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@GetMapping(value = "article/get", produces = MediaType.APPLICATION_JSON_VALUE)
+	public MensajeResponse<ArticleDTO> findByLinkarticleOne(@RequestParam String linkarticle) throws MensajeException {
+		return new MensajeResponse<>(SUCCES, String.valueOf(HttpStatus.OK), OK,
+				articleService.findByLinkarticle(linkarticle));
+	}
+	
     @PutMapping(value = "article", produces = MediaType.APPLICATION_JSON_VALUE)
 	public MensajeResponse<ArticleDTO> updatePutArticle(@Valid @RequestBody ArticleDTO  articleDTO) throws MensajeException {
 		return new MensajeResponse<>(SUCCES, String.valueOf(HttpStatus.OK), OK,

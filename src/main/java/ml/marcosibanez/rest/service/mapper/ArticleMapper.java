@@ -34,5 +34,19 @@ public class ArticleMapper {
 		}
 		return articleDTOs;
 	}
+public ArticleDTO mapperByOne (Article article){
+		
+			ArticleDTO	articleDTO = new ArticleDTO(article);
+			List<Parrafo> parrafos = article.getSection();
+			List<ParrafoDTO> parrafoDTOs = new ArrayList<>();
+			
+			for(Parrafo parrafo : parrafos) {
+				parrafoDTOs.add(new ParrafoDTO(parrafo));
+			}
+			articleDTO.setSectionr(parrafoDTOs);
+		
+		
+		return articleDTO;
+	}
 
 }
