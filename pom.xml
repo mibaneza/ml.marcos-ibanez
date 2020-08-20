@@ -11,7 +11,7 @@
 	<groupId>ml.marcos-ibanez</groupId>
 	<artifactId>ml.marcos-ibanez</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>ml.marcos-ibanez</name>
 	<description>Api Rest</description>
 
