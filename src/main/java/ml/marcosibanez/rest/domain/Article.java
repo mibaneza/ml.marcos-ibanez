@@ -44,8 +44,8 @@ public class Article implements Serializable {
 	@Column(length = 50, nullable = false)
 	private String titlearticle;
 
-	@Size(min = 3, max = 50)
-	@Column(length = 50, nullable = false)
+	@Size(min = 3, max = 250)
+	@Column(length = 250, nullable = true)
 	private String imgheaderlink;
 	
 	@OneToMany(cascade = CascadeType.ALL)

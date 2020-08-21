@@ -24,7 +24,7 @@ public class ArticleDTO implements Serializable {
 	private String titlearticle;
 	
 	@NotNull
-	@Size(min = 2, max = 50)
+	@Size(min = 2, max = 250)
 	private String imgheaderlink;
 	
 	private List<ParrafoDTO> sectionr ;
