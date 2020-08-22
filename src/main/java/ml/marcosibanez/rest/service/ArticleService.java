@@ -98,7 +98,7 @@ public class ArticleService {
 	}
 	
 	public ArticleDTO updateArticle(ArticleDTO articleDTO) throws MensajeException {
-		
+		ArticleDTO articleDTOs;
 		Article article = articleRepository.findByLinkarticle(articleDTO.getLinkarticle())
 				.orElseThrow(() -> new NotFountException("SNOT-404-1", "Article_NOT_FOUND"));
 		article.setLinkarticle(articleDTO.getLinkarticle());
@@ -120,14 +120,12 @@ public class ArticleService {
 		for(ParrafoDTO parrafoDto : parrafoDTO) {
 			Parrafo parrafoF = parrafoRepository.findByOrderpAndFkarticle(parrafoDto.getOrders(),article.getId())
 					.orElseThrow(() -> new NotFountException("SNOT-404-1", "Article_NOT_FOUND"));
-			Parrafo parrafo = new Parrafo(parrafoF.getOrder(),parrafoDto.getContent());
-			parrafo.setFkarticle(parrafoF.getFkarticle());
-			parrafo.setId(parrafoF.getId());
-			parrafo.setLinkcodetop(parrafoF.getLinkcodetop());
-			parrafo.setLinkimgtop(parrafoF.getLinkimgtop());
-			parrafo.setLinkcodebot(parrafoF.getLinkcodebot());
-			parrafo.setLinkimgbot(parrafoF.getLinkimgbot());
-			parrafos.add(parrafo);
+			parrafoF.setContent(parrafoDto.getContent());
+			parrafoF.setLinkcodetop(parrafoDto.getLinkcodetop());
+			parrafoF.setLinkimgtop(parrafoDto.getLinkimgtop());
+			parrafoF.setLinkcodebot(parrafoDto.getLinkcodebot());
+			parrafoF.setLinkimgbot(parrafoDto.getLinkimgbot());
+			parrafos.add(parrafoF);
 		}
 		try {
 			parrafoRepository.saveAll(parrafos);
@@ -135,7 +133,8 @@ public class ArticleService {
 			LOGGER.error(MENSAJEERROR);
 			throw new NotFountException(MENSAJEERROR, MENSAJEERROR);
 		}
-		return articleDTO;
+		articleDTOs  = articleMapper.mapperByOne(article);
+		return articleDTOs;
 	}
 
 	@Transactional

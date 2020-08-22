@@ -28,10 +28,10 @@ public class ParrafoDTO implements Serializable {
 	}
 	public ParrafoDTO(Parrafo parrafo) {
 		this.orders = parrafo.getOrder();
-		this.linkimgbot = parrafo.getLinkcodetop();
-		this.linkimgbot = parrafo.getLinkimgtop();
+		this.linkcodetop = parrafo.getLinkcodetop();
+		this.linkimgtop = parrafo.getLinkimgtop();
 		this.content = parrafo.getContent();
-		this.linkimgbot = parrafo.getLinkcodebot();
+		this.linkcodebot = parrafo.getLinkcodebot();
 		this.linkimgbot = parrafo.getLinkimgbot();
 	}
 	
