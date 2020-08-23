@@ -25,7 +25,7 @@ import ml.marcosibanez.rest.web.rest.response.MensajeResponse;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api/web/")
 public class CardResource {
     private final static String succes = "Succes";
 	private final static String ok = "OK";

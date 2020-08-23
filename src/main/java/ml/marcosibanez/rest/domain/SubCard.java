@@ -21,12 +21,12 @@ public class SubCard implements Serializable {
 	private Long id;
 	
 	@NotNull
-	@Size(min = 2, max=10)
+	@Size(min = 1, max=10)
 	@Column(length = 10, nullable = false )
 	private String  logo;
 	
 	@NotNull
-	@Size(min = 3, max=50)
+	@Size(min = 1, max=50)
 	@Column(length = 50, nullable = false )
 	private String name;
 	
@@ -37,7 +37,11 @@ public class SubCard implements Serializable {
 		this.logo = logo;
 		this.name = name;
 	}
-
+	public SubCard(String logo, String name, Long fkcard) {
+		this.logo = logo;
+		this.name = name;
+		this.fkcard = fkcard;
+	}
 	public SubCard() {}
 
 	public Long getId() {

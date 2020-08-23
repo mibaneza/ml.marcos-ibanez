@@ -26,8 +26,8 @@ public class Card implements Serializable {
 	private Long id;
 	
 	@NotNull
-	@Size(min = 2, max = 10)
-	@Column(length = 10, nullable = false)
+	@Size(min = 2, max = 50)
+	@Column(length = 50, nullable = false)
 	private String logotitle;
 	
 	@NotNull

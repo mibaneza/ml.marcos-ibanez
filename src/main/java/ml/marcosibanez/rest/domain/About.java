@@ -1,12 +1,17 @@
 package ml.marcosibanez.rest.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -23,26 +28,35 @@ public class About implements Serializable {
 	@Size(min = 3, max=50)
 	@Column(length = 50, nullable = false )
 	private String title;
+		
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "fk_about", referencedColumnName = "id")
+	private List<Ptextarea> ptextarea = new ArrayList<>();
 	
 	@NotNull
 	@Size(min = 3, max=250)
 	@Column(length = 250, nullable = false )
-	private String textarea;
-	
-	
-	@NotNull
-	@Size(min = 3, max=10)
-	@Column(length = 10, nullable = false )
-	private String Logo;
-
+	private String logo;
 
 	public About() {}
 
-	public About( String title, String textarea,
-			 String logo) {
+	public About(Long id, String title, List<Ptextarea> ptextarea,
+			String logo) {
+		this.id = id;
 		this.title = title;
-		this.textarea = textarea;
-		Logo = logo;
+		this.ptextarea = ptextarea;
+		this.logo = logo;
+	}
+	public About(About about) {
+		this.title = about.getTitle();
+		this.logo = about.getLogo();
+	}
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getTitle() {
@@ -53,28 +67,20 @@ public class About implements Serializable {
 		this.title = title;
 	}
 
-	public String getTextarea() {
-		return textarea;
+	public List<Ptextarea> getPtextarea() {
+		return ptextarea;
 	}
 
-	public void setTextarea(String textarea) {
-		this.textarea = textarea;
+	public void setPtextarea(List<Ptextarea> ptextarea) {
+		this.ptextarea = ptextarea;
 	}
 
 	public String getLogo() {
-		return Logo;
+		return logo;
 	}
 
 	public void setLogo(String logo) {
-		Logo = logo;
+		this.logo = logo;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
 }

@@ -41,9 +41,9 @@ public class AboutResource {
 	
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping(value = "about", produces = MediaType.APPLICATION_JSON_VALUE)
-	public MensajeResponse<List<About>> readGetHorary() throws MensajeException {
+	public MensajeResponse<About> readGetHorary() throws MensajeException {
 		return new MensajeResponse<>(succes, String.valueOf(HttpStatus.OK), ok,
-				aboutService.findAllAbout());
+				aboutService.findOneAbout());
 	}
     @PutMapping(value = "about", produces = MediaType.APPLICATION_JSON_VALUE)
 	public MensajeResponse<About> updatePutHorary(@Valid @RequestBody About aboutDto) throws MensajeException {

@@ -38,7 +38,7 @@ public class ContactService {
 
 	@Transactional
 	public List<Contact> findAllContact() throws MensajeException {
-		List<Contact> contacts = new ArrayList<Contact>();
+		List<Contact> contacts = new ArrayList<>();
 		try {
 			contacts = contactRepository.findAll();
 		} catch (final Exception e) {

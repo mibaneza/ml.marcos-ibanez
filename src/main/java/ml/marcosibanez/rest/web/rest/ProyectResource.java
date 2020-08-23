@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import ml.marcosibanez.rest.domain.Proyect;
+import ml.marcosibanez.rest.domain.ProyectD;
 import ml.marcosibanez.rest.service.ProyectService;
 import ml.marcosibanez.rest.service.exception.MensajeException;
 import ml.marcosibanez.rest.web.rest.response.MensajeResponse;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api/web/")
 public class ProyectResource {
     
     private final static String succes = "Succes";
@@ -34,19 +34,19 @@ public class ProyectResource {
 	ProyectService proyectService;
 	
 	@PostMapping(value = "proyect", produces = MediaType.APPLICATION_JSON_VALUE)
-	public MensajeResponse<String> createPostHorary(@Valid @RequestBody Proyect proyectDto) throws MensajeException {
+	public MensajeResponse<String> createPostHorary(@Valid @RequestBody ProyectD proyectDto) throws MensajeException {
 		return new MensajeResponse<>(succes, String.valueOf(HttpStatus.OK), ok,
 				proyectService.createProyect(proyectDto));
 	}
 	
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping(value = "proyect", produces = MediaType.APPLICATION_JSON_VALUE)
-	public MensajeResponse<List<Proyect>> readGetHorary() throws MensajeException {
+	public MensajeResponse<List<ProyectD>> readGetHorary() throws MensajeException {
 		return new MensajeResponse<>(succes, String.valueOf(HttpStatus.OK), ok,
 				proyectService.findAllProyect());
 	}
     @PutMapping(value = "proyect", produces = MediaType.APPLICATION_JSON_VALUE)
-	public MensajeResponse<Proyect> updatePutHorary(@Valid @RequestBody Proyect proyectDto) throws MensajeException {
+	public MensajeResponse<ProyectD> updatePutHorary(@Valid @RequestBody ProyectD proyectDto) throws MensajeException {
 		return new MensajeResponse<>(succes, String.valueOf(HttpStatus.OK), ok,
 				proyectService.updateProyect(proyectDto));
 	}	

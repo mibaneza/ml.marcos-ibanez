@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ml.marcosibanez.rest.domain.Proyect;
+import ml.marcosibanez.rest.domain.ProyectD;
 import ml.marcosibanez.rest.repository.ProyectRepository;
 import ml.marcosibanez.rest.service.exception.InternalServerErrorException;
 import ml.marcosibanez.rest.service.exception.MensajeException;
@@ -21,12 +21,13 @@ public class ProyectService {
 
 	@Autowired
 	ProyectRepository proyectRepository;
-
+	ProyectD proyectD;
 
 	@Transactional
-	public String createProyect(Proyect proyects) throws MensajeException {
+	public String createProyect(ProyectD proyectDs) throws MensajeException {
+		 proyectD = new ProyectD(proyectDs);
 		try {
-			proyectRepository.save(proyects);
+			proyectRepository.save(proyectD);
 		} catch (final Exception e) {
 			LOGGER.error("INTERNAL_SERVER_ERROR");
 			throw new InternalServerErrorException("INTERNAL_SERVER_ERROR", "INTERNAL_SERVER_ERROR");
@@ -35,31 +36,32 @@ public class ProyectService {
 	}
 
 
-	@Transactional
-	public List<Proyect> findAllProyect() throws MensajeException {
-		List<Proyect> proyects = new ArrayList<Proyect>();
+
+	public List<ProyectD> findAllProyect() throws MensajeException {
+		List<ProyectD> sproyectDs;
 		try {
-			proyects = proyectRepository.findAll();
+			sproyectDs = proyectRepository.findAll();
 		} catch (final Exception e) {
 			LOGGER.error("INTERNAL_SERVER_ERROR");
 			throw new InternalServerErrorException("INTERNAL_SERVER_ERROR", "INTERNAL_SERVER_ERROR");
 		}
-		return proyects;
+		return sproyectDs;
 	}
 
 	
-	public Proyect updateProyect(Proyect proyects) throws MensajeException {
-		
-		Proyect proyect = proyectRepository.findById(proyects.getId())
+	public ProyectD updateProyect(ProyectD proyectDs) throws MensajeException {
+		proyectD = new ProyectD(proyectDs);
+		ProyectD idP = proyectRepository.findById(proyectDs.getId())
 				.orElseThrow(() -> new NotFountException("SNOT-404-1", "ABOUT_NOT_FOUND"));
+		proyectD.setId(idP.getId());
 		try {
-			proyectRepository.save(proyect);
+			proyectRepository.save(proyectD);
 
 		} catch (final Exception e) {
 			LOGGER.error("INTERNAL_SERVER_ERROR");
 			throw new InternalServerErrorException("INTERNAL_SERVER_ERROR", "INTERNAL_SERVER_ERROR");
 		}
-		return proyects;
+		return proyectDs;
 	}
 	@Transactional
 	public String deleteAbout(Long id) throws MensajeException {
