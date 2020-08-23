@@ -29,18 +29,23 @@ public class AboutService {
 	PtextaareaRepository ptextaareaRepository;
 	About about;
 	Ptextarea ptextarea;
+	
 	@Transactional
 	public String createAbout(About abouts) throws MensajeException {
-		about = new About(abouts);
+		about = new About();
+		about.setLogo(abouts.getLogo());
+		about.setTitle(abouts.getTitle());
 		try {
 			aboutRepository.save(about);
 		} catch (final Exception e) {
 			LOGGER.error("INTERNAL_SERVER_ERROR");
 			throw new InternalServerErrorException("INTERNAL_SERVER_ERROR", "INTERNAL_SERVER_ERROR");
 		}
+		About aboutt = aboutRepository.findById((long) 1)
+				.orElseThrow(() -> new NotFountException("SNOT-404-1", "ABOUT_NOT_FOUND"));
 		List<Ptextarea> ptextarea = new ArrayList<>();
 		for(Ptextarea ptextareaOne : abouts.getPtextarea()) {
-			ptextarea.add(new Ptextarea(ptextareaOne.getTextorder(),ptextareaOne.getTextcontent(),(long) 1));
+			ptextarea.add(new Ptextarea(ptextareaOne.getTextorder(),ptextareaOne.getTextcontent(),aboutt.getId()));
 		}
 		try {
 			ptextaareaRepository.saveAll(ptextarea);
@@ -67,7 +72,14 @@ public class AboutService {
 		 about.setLogo(abouts.getLogo());
 		 about.setTitle(abouts.getLogo());
 		 
-		 ptextarea = new ArrayList<>();
+		try {
+			aboutRepository.save(about);
+
+		} catch (final Exception e) {
+			LOGGER.error("INTERNAL_SERVER_ERROR");
+			throw new InternalServerErrorException("INTERNAL_SERVER_ERROR", "INTERNAL_SERVER_ERROR");
+		}
+	 ptextarea = new ArrayList<>();
 		 
 		 for(Ptextarea ptextareaOne : abouts.getPtextarea()) {
 			 Ptextarea parrafoF = ptextaareaRepository.findByTextorderAndFkabout(ptextareaOne.getTextorder(),(long)1)
@@ -82,13 +94,6 @@ public class AboutService {
 				LOGGER.error("INTERNAL_SERVER_ERROR");
 				throw new InternalServerErrorException("INTERNAL_SERVER_ERROR", "INTERNAL_SERVER_ERROR");
 			}
-		try {
-			aboutRepository.save(about);
-
-		} catch (final Exception e) {
-			LOGGER.error("INTERNAL_SERVER_ERROR");
-			throw new InternalServerErrorException("INTERNAL_SERVER_ERROR", "INTERNAL_SERVER_ERROR");
-		}
 		return abouts;
 	}
 

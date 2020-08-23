@@ -27,7 +27,7 @@ public class ProyectService {
 	public String createProyect(ProyectD proyectDs) throws MensajeException {
 		 proyectD = new ProyectD(proyectDs);
 		try {
-			proyectRepository.save(proyectD);
+			proyectRepository.save(proyectDs);
 		} catch (final Exception e) {
 			LOGGER.error("INTERNAL_SERVER_ERROR");
 			throw new InternalServerErrorException("INTERNAL_SERVER_ERROR", "INTERNAL_SERVER_ERROR");
@@ -38,7 +38,7 @@ public class ProyectService {
 
 
 	public List<ProyectD> findAllProyect() throws MensajeException {
-		List<ProyectD> sproyectDs;
+		List<ProyectD> sproyectDs = new ArrayList<>();
 		try {
 			sproyectDs = proyectRepository.findAll();
 		} catch (final Exception e) {

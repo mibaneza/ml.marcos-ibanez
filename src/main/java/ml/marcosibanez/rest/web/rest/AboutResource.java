@@ -25,7 +25,7 @@ import ml.marcosibanez.rest.web.rest.response.MensajeResponse;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api/web/")
 public class AboutResource {
     
     private final static String succes = "Succes";

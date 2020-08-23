@@ -66,6 +66,7 @@ public class ProyectD implements Serializable {
 		this.btname = proyectDs.getBtname();
 	}
 
+	public ProyectD() {}
 	public Long getId() {
 		return id;
 	}
