@@ -28,24 +28,24 @@ public class Contact implements Serializable {
 	private Long id;
 	
 	@NotNull
-	@Size(min = 3, max=50)
-	@Column(length = 50, nullable = false )
+	@Size(min = 3, max=100)
+	@Column(length = 100, nullable = false )
 	private String name;
 	
 	@Email
-	@Size(min = 12, max=100)
+	@Size(min = 5, max=250)
 	@Column(length = 254, nullable = false )
 	private String email;
 	
 	
 	@NotNull
-	@Size(min = 3, max=100)
-	@Column(length = 100, nullable = false )
+	@Size(min = 3, max=250)
+	@Column(length = 250, nullable = false )
 	private String subject;
 	
 	@NotNull
-	@Size(min = 3, max=254)
-	@Column(length = 254, nullable = false )
+	@Size(min = 4, max=65535)
+	@Column(length = 65535, columnDefinition = "text")
 	private String message;
 
 	@Column(name = "fecha_insert")

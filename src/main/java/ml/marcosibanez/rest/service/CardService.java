@@ -36,7 +36,7 @@ public class CardService {
 		card.setLogotitle(cards.getLogotitle());
 		card.setTitle(cards.getTitle());
 		try {
-			cardRepository.save(cards);
+			cardRepository.save(card);
 		} catch (final Exception e) {
 			LOGGER.error("INTERNAL_SERVER_ERROR");
 			throw new InternalServerErrorException("INTERNAL_SERVER_ERROR", "INTERNAL_SERVER_ERROR");
