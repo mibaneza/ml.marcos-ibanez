@@ -3,8 +3,7 @@ package ml.marcosibanez.rest.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +20,7 @@ import ml.marcosibanez.rest.service.mapper.ArticleMapper;
 
 @Service
 public class ArticleService {
-	private static final Logger LOGGER = LoggerFactory.getLogger(ArticleService.class);
+	
 	private static final String MENSAJEERROR = "INTERNAL_SERVER_ERROR";
 	
 	@Autowired
@@ -46,7 +45,6 @@ public class ArticleService {
 		try {
 			articleRepository.save(article);
 		} catch (final Exception e) {
-			LOGGER.error(MENSAJEERROR);
 			throw new NotFountException(MENSAJEERROR, MENSAJEERROR);
 		}
 		Article articles = articleRepository.findByLinkarticle(articleDTO.getLinkarticle())
@@ -66,7 +64,6 @@ public class ArticleService {
 		try {
 			parrafoRepository.saveAll(parrafos);
 		} catch (final Exception e) {
-			LOGGER.error(MENSAJEERROR);
 			throw new NotFountException(MENSAJEERROR, MENSAJEERROR);
 		}
 		return "Resgistro exitoso ";
@@ -80,7 +77,7 @@ public class ArticleService {
 		try {
 			articles =  articleRepository.findAll();
 		} catch (final Exception e) {
-			LOGGER.error(MENSAJEERROR);
+			
 			throw new NotFountException(MENSAJEERROR, MENSAJEERROR);
 		}
 		articleDTOs  = articleMapper.mapper(articles);
@@ -95,7 +92,20 @@ public class ArticleService {
 		articleDTO  = articleMapper.mapperByOne(article);
 		return articleDTO;
 	}
-	
+	@Transactional
+	public String existsByLinkarticle() throws MensajeException {
+		String ga ;
+		try {
+			if(Boolean.TRUE.equals(parrafoRepository.existsByOrderpAndFkarticle((long)1,(long)1))) {
+				ga="true";
+			}else {ga="false";}
+
+		} catch (final Exception e) {
+			
+			throw new NotFountException(MENSAJEERROR, MENSAJEERROR);
+		}
+		return ga;
+	}
 	public ArticleDTO updateArticle(ArticleDTO articleDTO) throws MensajeException {
 		ArticleDTO articleDTOs;
 		Article articleup = articleRepository.findByLinkarticle(articleDTO.getLinkarticle())
@@ -109,7 +119,7 @@ public class ArticleService {
 			articleRepository.save(articleup);
 
 		} catch (final Exception e) {
-			LOGGER.error(MENSAJEERROR);
+			
 			throw new NotFountException(MENSAJEERROR, MENSAJEERROR);
 		}
 		
@@ -117,19 +127,32 @@ public class ArticleService {
 		List<Parrafo> parrafos = new ArrayList<>();
 		
 		for(ParrafoDTO parrafoDto : parrafoDTO) {
-			Parrafo parrafoF = parrafoRepository.findByOrderpAndFkarticle(parrafoDto.getOrders(),articleup.getId())
-					.orElseThrow(() -> new NotFountException(MENSAJEERROR, MENSAJEERROR));
-			parrafoF.setContent(parrafoDto.getContent());
-			parrafoF.setLinkcodetop(parrafoDto.getLinkcodetop());
-			parrafoF.setLinkimgtop(parrafoDto.getLinkimgtop());
-			parrafoF.setLinkcodebot(parrafoDto.getLinkcodebot());
-			parrafoF.setLinkimgbot(parrafoDto.getLinkimgbot());
-			parrafos.add(parrafoF);
+			Parrafo parrafoF = new Parrafo();
+			if(Boolean.TRUE.equals(parrafoRepository.existsByOrderpAndFkarticle(parrafoDto.getOrders(),articleup.getId()))) {
+				 parrafoF = parrafoRepository.findByOrderpAndFkarticle(parrafoDto.getOrders(),articleup.getId())
+						.orElseThrow(() -> new NotFountException(MENSAJEERROR, MENSAJEERROR));
+				parrafoF.setContent(parrafoDto.getContent());
+				parrafoF.setLinkcodetop(parrafoDto.getLinkcodetop());
+				parrafoF.setLinkimgtop(parrafoDto.getLinkimgtop());
+				parrafoF.setLinkcodebot(parrafoDto.getLinkcodebot());
+				parrafoF.setLinkimgbot(parrafoDto.getLinkimgbot());
+				parrafos.add(parrafoF);
+			}else {
+				parrafoF.setOrder(parrafoDto.getOrders());
+				parrafoF.setFkarticle(articleup.getId());
+				parrafoF.setContent(parrafoDto.getContent());
+				parrafoF.setLinkcodetop(parrafoDto.getLinkcodetop());
+				parrafoF.setLinkimgtop(parrafoDto.getLinkimgtop());
+				parrafoF.setLinkcodebot(parrafoDto.getLinkcodebot());
+				parrafoF.setLinkimgbot(parrafoDto.getLinkimgbot());
+				parrafos.add(parrafoF);
+			}
+			
 		}
 		try {
 			parrafoRepository.saveAll(parrafos);
 		} catch (final Exception e) {
-			LOGGER.error(MENSAJEERROR);
+		
 			throw new NotFountException(MENSAJEERROR, MENSAJEERROR);
 		}
 		articleDTOs  = articleMapper.mapperByOne(articleup);
@@ -143,7 +166,7 @@ public class ArticleService {
 		try {
 			articleRepository.deleteById(id);
 		} catch (Exception e) {
-			LOGGER.error(MENSAJEERROR, e);
+		
 			throw new NotFountException(MENSAJEERROR, MENSAJEERROR);
 		}
 

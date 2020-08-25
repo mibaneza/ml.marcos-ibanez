@@ -55,7 +55,12 @@ public class ArticleResource {
 		return new MensajeResponse<>(SUCCES, String.valueOf(HttpStatus.OK), OK,
 				articleService.findByLinkarticle(linkarticle));
 	}
-	
+	@ResponseStatus(HttpStatus.OK)
+	@GetMapping(value = "web/initializ/", produces = MediaType.APPLICATION_JSON_VALUE)
+	public MensajeResponse<String> existsByLinkarticle() throws MensajeException {
+		return new MensajeResponse<>(SUCCES, String.valueOf(HttpStatus.OK), OK,
+				articleService.existsByLinkarticle());
+	}
 	@PreAuthorize("hasRole('ADMIN')")
     @PutMapping(value = "security/article", produces = MediaType.APPLICATION_JSON_VALUE)
 	public MensajeResponse<ArticleDTO> updatePutArticle(@Valid @RequestBody ArticleDTO  articleDTO) throws MensajeException {

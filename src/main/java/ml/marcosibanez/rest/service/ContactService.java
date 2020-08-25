@@ -3,8 +3,7 @@ package ml.marcosibanez.rest.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,11 +13,11 @@ import ml.marcosibanez.rest.repository.ContactRepository;
 import ml.marcosibanez.rest.service.dto.ContactDTO;
 import ml.marcosibanez.rest.service.exception.NotFountException;
 import ml.marcosibanez.rest.service.exception.MensajeException;
-import ml.marcosibanez.rest.service.exception.NotFountException;
+
 
 @Service
 public class ContactService {
-	private static final Logger LOGGER = LoggerFactory.getLogger(ContactService.class);
+
 	private static final String ERROR = "NOT_FOUND";
     private static final String CODE = "SNOT-404-1";
 	@Autowired
@@ -30,7 +29,7 @@ public class ContactService {
 		try {
 			contactRepository.save(new Contact(contactDto));
 		} catch (final Exception e) {
-			LOGGER.error(CODE);
+	
 			throw new NotFountException(CODE, ERROR);
 		}
 		return "Resgistro exitoso ";
@@ -43,7 +42,7 @@ public class ContactService {
 		try {
 			contacts = contactRepository.findAll();
 		} catch (final Exception e) {
-			LOGGER.error(CODE);
+	
 			throw new NotFountException(CODE, ERROR);
 		}
 		return contacts;
@@ -57,7 +56,7 @@ public class ContactService {
 		try {
 			contactRepository.deleteById(id);
 		} catch (Exception e) {
-			LOGGER.error(CODE, e);
+	
 			throw new NotFountException(CODE, ERROR);
 		}
 
