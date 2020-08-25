@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,34 +26,39 @@ import ml.marcosibanez.rest.web.rest.response.MensajeResponse;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/web/")
+@RequestMapping("/api/")
 public class CardResource {
-    private final static String succes = "Succes";
-	private final static String ok = "OK";
+    private static final  String SUCCES = "Succes";
+	private static final  String OK = "OK";
 	@Autowired
 	CardService cardService;
 	
-	@PostMapping(value = "card", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasRole('ADMIN')")
+	@PostMapping(value = "security/card", produces = MediaType.APPLICATION_JSON_VALUE)
 	public MensajeResponse<String> createPostHorary(@Valid @RequestBody Card cardDto) throws MensajeException {
-		return new MensajeResponse<>(succes, String.valueOf(HttpStatus.OK), ok,
+		return new MensajeResponse<>(SUCCES, String.valueOf(HttpStatus.OK), OK,
 				cardService.createCard(cardDto));
 	}
 	
 	@ResponseStatus(HttpStatus.OK)
-	@GetMapping(value = "card", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "web/card", produces = MediaType.APPLICATION_JSON_VALUE)
 	public MensajeResponse<List<Card>> readGetHorary() throws MensajeException {
-		return new MensajeResponse<>(succes, String.valueOf(HttpStatus.OK), ok,
+		return new MensajeResponse<>(SUCCES, String.valueOf(HttpStatus.OK), OK,
 				cardService.findAllCard());
 	}
-    @PutMapping(value = "card", produces = MediaType.APPLICATION_JSON_VALUE)
+	
+	@PreAuthorize("hasRole('ADMIN')")
+    @PutMapping(value = "security/card", produces = MediaType.APPLICATION_JSON_VALUE)
 	public MensajeResponse<Card> updatePutHorary(@Valid @RequestBody Card cardDto) throws MensajeException {
-		return new MensajeResponse<>(succes, String.valueOf(HttpStatus.OK), ok,
+		return new MensajeResponse<>(SUCCES, String.valueOf(HttpStatus.OK), OK,
 				cardService.updateCard(cardDto));
-	}	
+	}
+	
+	@PreAuthorize("hasRole('ADMIN')")
 	@ResponseStatus(HttpStatus.OK)
-	@DeleteMapping(value = "card", produces = MediaType.APPLICATION_JSON_VALUE)
+	@DeleteMapping(value = "security/card", produces = MediaType.APPLICATION_JSON_VALUE)
 	public MensajeResponse<String> deleteCard(@RequestParam Long id) throws MensajeException {
-		return new MensajeResponse<>(succes, String.valueOf(HttpStatus.OK), ok,
+		return new MensajeResponse<>(SUCCES, String.valueOf(HttpStatus.OK), OK,
 				cardService.deleteCard(id));
  }
 }

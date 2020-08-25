@@ -15,7 +15,6 @@ import ml.marcosibanez.rest.repository.ArticleRepository;
 import ml.marcosibanez.rest.repository.ParrafoRepository;
 import ml.marcosibanez.rest.service.dto.ArticleDTO;
 import ml.marcosibanez.rest.service.dto.ParrafoDTO;
-import ml.marcosibanez.rest.service.exception.InternalServerErrorException;
 import ml.marcosibanez.rest.service.exception.MensajeException;
 import ml.marcosibanez.rest.service.exception.NotFountException;
 import ml.marcosibanez.rest.service.mapper.ArticleMapper;
@@ -51,7 +50,7 @@ public class ArticleService {
 			throw new NotFountException(MENSAJEERROR, MENSAJEERROR);
 		}
 		Article articles = articleRepository.findByLinkarticle(articleDTO.getLinkarticle())
-				.orElseThrow(() -> new NotFountException("SNOT-404-1", "Article_NOT_FOUND"));
+				.orElseThrow(() -> new NotFountException(MENSAJEERROR, MENSAJEERROR));
 		List<ParrafoDTO> parrafoDTO = articleDTO.getSectionr();
 		List<Parrafo> parrafos = new ArrayList<>();
 		
@@ -91,7 +90,7 @@ public class ArticleService {
 	public ArticleDTO findByLinkarticle(String linkarticle) throws MensajeException {
 		ArticleDTO articleDTO;
 			article =  articleRepository.findByLinkarticle(linkarticle)
-					.orElseThrow(() -> new NotFountException("SNOT-404-1", "Article_NOT_FOUND"));
+					.orElseThrow(() -> new NotFountException(MENSAJEERROR, MENSAJEERROR));
 	
 		articleDTO  = articleMapper.mapperByOne(article);
 		return articleDTO;
@@ -99,15 +98,15 @@ public class ArticleService {
 	
 	public ArticleDTO updateArticle(ArticleDTO articleDTO) throws MensajeException {
 		ArticleDTO articleDTOs;
-		Article article = articleRepository.findByLinkarticle(articleDTO.getLinkarticle())
-				.orElseThrow(() -> new NotFountException("SNOT-404-1", "Article_NOT_FOUND"));
-		article.setLinkarticle(articleDTO.getLinkarticle());
-		article.setTitlearticle(articleDTO.getTitlearticle());
-		article.setImgheaderlink(articleDTO.getImgheaderlink());
+		Article articleup = articleRepository.findByLinkarticle(articleDTO.getLinkarticle())
+				.orElseThrow(() -> new NotFountException(MENSAJEERROR, MENSAJEERROR));
+		articleup.setLinkarticle(articleDTO.getLinkarticle());
+		articleup.setTitlearticle(articleDTO.getTitlearticle());
+		articleup.setImgheaderlink(articleDTO.getImgheaderlink());
 
 
 		try {
-			articleRepository.save(article);
+			articleRepository.save(articleup);
 
 		} catch (final Exception e) {
 			LOGGER.error(MENSAJEERROR);
@@ -118,8 +117,8 @@ public class ArticleService {
 		List<Parrafo> parrafos = new ArrayList<>();
 		
 		for(ParrafoDTO parrafoDto : parrafoDTO) {
-			Parrafo parrafoF = parrafoRepository.findByOrderpAndFkarticle(parrafoDto.getOrders(),article.getId())
-					.orElseThrow(() -> new NotFountException("SNOT-404-1", "Article_NOT_FOUND"));
+			Parrafo parrafoF = parrafoRepository.findByOrderpAndFkarticle(parrafoDto.getOrders(),articleup.getId())
+					.orElseThrow(() -> new NotFountException(MENSAJEERROR, MENSAJEERROR));
 			parrafoF.setContent(parrafoDto.getContent());
 			parrafoF.setLinkcodetop(parrafoDto.getLinkcodetop());
 			parrafoF.setLinkimgtop(parrafoDto.getLinkimgtop());
@@ -133,14 +132,14 @@ public class ArticleService {
 			LOGGER.error(MENSAJEERROR);
 			throw new NotFountException(MENSAJEERROR, MENSAJEERROR);
 		}
-		articleDTOs  = articleMapper.mapperByOne(article);
+		articleDTOs  = articleMapper.mapperByOne(articleup);
 		return articleDTOs;
 	}
 
 	@Transactional
 	public String deleteArticle(Long id) throws MensajeException {
 		articleRepository.findById(id)
-				.orElseThrow(() -> new NotFountException("SNOT-404-1", "Article_NOT_FOUND"));
+				.orElseThrow(() -> new NotFountException(MENSAJEERROR, MENSAJEERROR));
 		try {
 			articleRepository.deleteById(id);
 		} catch (Exception e) {

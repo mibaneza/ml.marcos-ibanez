@@ -7,7 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,41 +26,44 @@ import ml.marcosibanez.rest.web.rest.response.MensajeResponse;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/web/")
+@RequestMapping("/api/")
 public class ArticleResource {
     
-    private final static String SUCCES = "Succes";
-	private final static String OK = "OK";
+    private static final String SUCCES = "Succes";
+	private static final String OK = "OK";
 	@Autowired
 	ArticleService articleService;
 	
-	@PostMapping(value = "article", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasRole('ADMIN')")
+	@PostMapping(value = "security/article", produces = MediaType.APPLICATION_JSON_VALUE)
 	public MensajeResponse<String> createPostArticle(@Valid @RequestBody ArticleDTO  articleDTO) throws MensajeException {
 		return new MensajeResponse<>(SUCCES, String.valueOf(HttpStatus.OK), OK,
 				articleService.createArticle( articleDTO));
 	}
 	
+	@PreAuthorize("hasRole('ADMIN')")
 	@ResponseStatus(HttpStatus.OK)
-	@GetMapping(value = "article", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "security/article", produces = MediaType.APPLICATION_JSON_VALUE)
 	public MensajeResponse<List<ArticleDTO>> readGetArticle() throws MensajeException {
 		return new MensajeResponse<>(SUCCES, String.valueOf(HttpStatus.OK), OK,
 				articleService.findAllArticle());
 	}
 	
 	@ResponseStatus(HttpStatus.OK)
-	@GetMapping(value = "article/get", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "web/article/get", produces = MediaType.APPLICATION_JSON_VALUE)
 	public MensajeResponse<ArticleDTO> findByLinkarticleOne(@RequestParam String linkarticle) throws MensajeException {
 		return new MensajeResponse<>(SUCCES, String.valueOf(HttpStatus.OK), OK,
 				articleService.findByLinkarticle(linkarticle));
 	}
 	
-    @PutMapping(value = "article", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasRole('ADMIN')")
+    @PutMapping(value = "security/article", produces = MediaType.APPLICATION_JSON_VALUE)
 	public MensajeResponse<ArticleDTO> updatePutArticle(@Valid @RequestBody ArticleDTO  articleDTO) throws MensajeException {
 		return new MensajeResponse<>(SUCCES, String.valueOf(HttpStatus.OK), OK,
 				articleService.updateArticle( articleDTO));
 	}	
 	@ResponseStatus(HttpStatus.OK)
-	@DeleteMapping(value = "article", produces = MediaType.APPLICATION_JSON_VALUE)
+	@DeleteMapping(value = "security/article", produces = MediaType.APPLICATION_JSON_VALUE)
 	public MensajeResponse<String> deleteArticle(@RequestParam Long id) throws MensajeException {
 		return new MensajeResponse<>(SUCCES, String.valueOf(HttpStatus.OK), OK,
 				articleService.deleteArticle(id));

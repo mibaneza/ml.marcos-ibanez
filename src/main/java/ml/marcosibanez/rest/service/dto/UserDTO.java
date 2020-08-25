@@ -1,13 +1,7 @@
 package ml.marcosibanez.rest.service.dto;
 
-import java.util.HashSet;
-import java.util.Set;
-
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-
-import ml.marcosibanez.rest.domain.Role;
 
 public class UserDTO {
 

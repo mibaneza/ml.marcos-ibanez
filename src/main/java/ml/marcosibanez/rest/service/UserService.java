@@ -27,7 +27,8 @@ import ml.marcosibanez.rest.service.exception.NotFountException;
 @Service
 public class UserService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
-	
+	private static final String ERROR = "NOT_FOUND";
+    private static final String CODE = "SNOT-404-1";
 	private final UserRepository userRepository;
 	
 	private final AuthenticationManager authenticationManager;
@@ -56,7 +57,7 @@ public class UserService {
 	
 		userRepository.findByUsername(
 				userDTO.getUsername())
-				.orElseThrow(() -> new NotFountException("SNOT-404-1", "El username no existe"));
+				.orElseThrow(() -> new NotFountException(CODE, ERROR));
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -77,7 +78,7 @@ public class UserService {
 		user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 	
 		if (userRepository.existsByUsername(userDTO.getUsername())) {
-			throw new NotFountException("USER_ALREADT_EXIST", "USER_ALREADT_EXIST");
+			throw new NotFountException(CODE, ERROR);
 		}
 
 		Set<Role> roles = new HashSet<>();
@@ -89,8 +90,8 @@ public class UserService {
 			try {
 				userRepository.save(user);
 			} catch (final Exception e) {
-				LOGGER.error("INTERNAL_SERVER_ERROR", e);
-				throw new InternalServerErrorException("INTERNAL_SERVER_ERROR", "INTERNAL_SERVER_ERROR");
+				LOGGER.error(ERROR, e);
+				throw new NotFountException(CODE, ERROR);
 			}
 			return "Succes";
 	}

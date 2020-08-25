@@ -1,15 +1,12 @@
 package ml.marcosibanez.rest.service.dto;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import ml.marcosibanez.rest.domain.Article;
-import ml.marcosibanez.rest.domain.Parrafo;
 
 public class ArticleDTO implements Serializable {
     private static final long serialVersionUID = 2405172041950251807L;

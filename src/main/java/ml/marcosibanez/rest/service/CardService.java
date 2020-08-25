@@ -13,14 +13,15 @@ import ml.marcosibanez.rest.domain.Card;
 import ml.marcosibanez.rest.domain.SubCard;
 import ml.marcosibanez.rest.repository.CardRepository;
 import ml.marcosibanez.rest.repository.SubCardRepository;
-import ml.marcosibanez.rest.service.exception.InternalServerErrorException;
-import ml.marcosibanez.rest.service.exception.MensajeException;
 import ml.marcosibanez.rest.service.exception.NotFountException;
+import ml.marcosibanez.rest.service.exception.MensajeException;
+
 
 @Service
 public class CardService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CardService.class);
-
+	private static final String ERROR = "NOT_FOUND";
+    private static final String CODE = "SNOT-404-1";
 	@Autowired
 	CardRepository cardRepository;
 	
@@ -38,11 +39,11 @@ public class CardService {
 		try {
 			cardRepository.save(card);
 		} catch (final Exception e) {
-			LOGGER.error("INTERNAL_SERVER_ERROR");
-			throw new InternalServerErrorException("INTERNAL_SERVER_ERROR", "INTERNAL_SERVER_ERROR");
+			LOGGER.error(ERROR);
+			throw new NotFountException(CODE, ERROR);
 		}
 		Card cars = cardRepository.findByTitle(cards.getTitle())
-					.orElseThrow(() -> new NotFountException("SNOT-404-1", "ABOUT_NOT_FOUND"));
+					.orElseThrow(() -> new NotFountException(CODE, ERROR));
 		List<SubCard> subCards = new ArrayList<>();
 		for(SubCard subCard : cards.getSubcards()) {
 			SubCard subCar = new SubCard();
@@ -54,8 +55,8 @@ public class CardService {
 		try {
 			subCardRepository.saveAll(subCards);
 		} catch (final Exception e) {
-			LOGGER.error("INTERNAL_SERVER_ERROR");
-			throw new InternalServerErrorException("INTERNAL_SERVER_ERROR", "INTERNAL_SERVER_ERROR");
+			LOGGER.error(ERROR);
+			throw new NotFountException(CODE, ERROR);
 		}
 		return "Resgistro exitoso ";
 	}
@@ -67,15 +68,15 @@ public class CardService {
 		try {
 			cards = cardRepository.findAll();
 		} catch (final Exception e) {
-			LOGGER.error("INTERNAL_SERVER_ERROR");
-			throw new InternalServerErrorException("INTERNAL_SERVER_ERROR", "INTERNAL_SERVER_ERROR");
+			LOGGER.error(ERROR);
+			throw new NotFountException(CODE, ERROR);
 		}
 		return cards;
 	}
 
 	public Card updateCard(Card cards) throws MensajeException {
 		 card = cardRepository.findByTitle(cards.getTitle())
-				.orElseThrow(() -> new NotFountException("SNOT-404-1", "ABOUT_NOT_FOUND"));
+				.orElseThrow(() -> new NotFountException(CODE, ERROR));
 		 card.setLogotitle(cards.getLogotitle());
 		 card.setTitle(cards.getTitle());
 
@@ -83,15 +84,15 @@ public class CardService {
 			cardRepository.save(card);
 
 		} catch (final Exception e) {
-			LOGGER.error("INTERNAL_SERVER_ERROR");
-			throw new InternalServerErrorException("INTERNAL_SERVER_ERROR", "INTERNAL_SERVER_ERROR");
+			LOGGER.error(ERROR);
+			throw new NotFountException(CODE, ERROR);
 		}
 		 List<SubCard> subCards = new ArrayList<>();
 			for(SubCard subCard : cards.getSubcards()) {
 				SubCard subCar = new SubCard();
 				if (Boolean.TRUE.equals(subCardRepository.existsByNameAndFkcard(subCard.getName(),card.getId()))) {
 					subCar = subCardRepository.findByNameAndFkcard(subCard.getName(),card.getId())
-							.orElseThrow(() -> new NotFountException("SNOT-404-1", "ABOUT_NOT_FOUND"));
+							.orElseThrow(() -> new NotFountException(CODE, ERROR));
 					subCar.setLogo(subCard.getLogo());
 					subCar.setName(subCard.getName());
 				
@@ -106,8 +107,8 @@ public class CardService {
 				subCardRepository.saveAll(subCards);
 
 			} catch (final Exception e) {
-				LOGGER.error("INTERNAL_SERVER_ERROR");
-				throw new InternalServerErrorException("INTERNAL_SERVER_ERROR", "INTERNAL_SERVER_ERROR");
+				LOGGER.error(ERROR);
+				throw new NotFountException(CODE, ERROR);
 			}
 		return cards;
 	}
@@ -116,12 +117,12 @@ public class CardService {
 	@Transactional
 	public String deleteCard(Long id) throws MensajeException {
 		cardRepository.findById(id)
-				.orElseThrow(() -> new NotFountException("SNOT-404-1", "ABOUT_NOT_FOUND"));
+				.orElseThrow(() -> new NotFountException(CODE, ERROR));
 		try {
 			cardRepository.deleteById(id);
 		} catch (Exception e) {
-			LOGGER.error("INTERNAL_SERVER_ERROR", e);
-			throw new InternalServerErrorException("INTERNAL_SERVER_ERROR", "INTERNAL_SERVER_ERROR");
+			LOGGER.error(CODE, e);
+			throw new NotFountException(CODE, ERROR);
 		}
 		return "DELECT SUCCESS";
 	}

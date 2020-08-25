@@ -12,14 +12,15 @@ import org.springframework.transaction.annotation.Transactional;
 import ml.marcosibanez.rest.domain.Contact;
 import ml.marcosibanez.rest.repository.ContactRepository;
 import ml.marcosibanez.rest.service.dto.ContactDTO;
-import ml.marcosibanez.rest.service.exception.InternalServerErrorException;
+import ml.marcosibanez.rest.service.exception.NotFountException;
 import ml.marcosibanez.rest.service.exception.MensajeException;
 import ml.marcosibanez.rest.service.exception.NotFountException;
 
 @Service
 public class ContactService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ContactService.class);
-
+	private static final String ERROR = "NOT_FOUND";
+    private static final String CODE = "SNOT-404-1";
 	@Autowired
 	ContactRepository contactRepository;
 
@@ -29,8 +30,8 @@ public class ContactService {
 		try {
 			contactRepository.save(new Contact(contactDto));
 		} catch (final Exception e) {
-			LOGGER.error("INTERNAL_SERVER_ERROR");
-			throw new InternalServerErrorException("INTERNAL_SERVER_ERROR", "INTERNAL_SERVER_ERROR");
+			LOGGER.error(CODE);
+			throw new NotFountException(CODE, ERROR);
 		}
 		return "Resgistro exitoso ";
 	}
@@ -42,8 +43,8 @@ public class ContactService {
 		try {
 			contacts = contactRepository.findAll();
 		} catch (final Exception e) {
-			LOGGER.error("INTERNAL_SERVER_ERROR");
-			throw new InternalServerErrorException("INTERNAL_SERVER_ERROR", "INTERNAL_SERVER_ERROR");
+			LOGGER.error(CODE);
+			throw new NotFountException(CODE, ERROR);
 		}
 		return contacts;
 	}
@@ -52,12 +53,12 @@ public class ContactService {
 	@Transactional
 	public String deleteContact(Long id) throws MensajeException {
 		contactRepository.findById(id)
-				.orElseThrow(() -> new NotFountException("SNOT-404-1", "CONTACT_NOT_FOUND"));
+				.orElseThrow(() -> new NotFountException(CODE, ERROR));
 		try {
 			contactRepository.deleteById(id);
 		} catch (Exception e) {
-			LOGGER.error("INTERNAL_SERVER_ERROR", e);
-			throw new InternalServerErrorException("INTERNAL_SERVER_ERROR", "INTERNAL_SERVER_ERROR");
+			LOGGER.error(CODE, e);
+			throw new NotFountException(CODE, ERROR);
 		}
 
 		return "DELECT SUCCESS";

@@ -2,8 +2,6 @@ package ml.marcosibanez.rest.service.dto;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-
 import ml.marcosibanez.rest.domain.Parrafo;
 
 public class ParrafoDTO implements Serializable {

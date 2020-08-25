@@ -11,14 +11,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ml.marcosibanez.rest.domain.ProyectD;
 import ml.marcosibanez.rest.repository.ProyectRepository;
-import ml.marcosibanez.rest.service.exception.InternalServerErrorException;
+
 import ml.marcosibanez.rest.service.exception.MensajeException;
 import ml.marcosibanez.rest.service.exception.NotFountException;
 
 @Service
 public class ProyectService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProyectService.class);
-
+	private static final String ERROR = "NOT_FOUND";
+    private static final String CODE = "SNOT-404-1";
 	@Autowired
 	ProyectRepository proyectRepository;
 	ProyectD proyectD;
@@ -29,8 +30,8 @@ public class ProyectService {
 		try {
 			proyectRepository.save(proyectDs);
 		} catch (final Exception e) {
-			LOGGER.error("INTERNAL_SERVER_ERROR");
-			throw new InternalServerErrorException("INTERNAL_SERVER_ERROR", "INTERNAL_SERVER_ERROR");
+			LOGGER.error(ERROR);
+			throw new NotFountException(CODE, ERROR);
 		}
 		return "Resgistro exitoso ";
 	}
@@ -42,8 +43,8 @@ public class ProyectService {
 		try {
 			sproyectDs = proyectRepository.findAll();
 		} catch (final Exception e) {
-			LOGGER.error("INTERNAL_SERVER_ERROR");
-			throw new InternalServerErrorException("INTERNAL_SERVER_ERROR", "INTERNAL_SERVER_ERROR");
+			LOGGER.error(ERROR);
+			throw new NotFountException(CODE, ERROR);
 		}
 		return sproyectDs;
 	}
@@ -52,26 +53,26 @@ public class ProyectService {
 	public ProyectD updateProyect(ProyectD proyectDs) throws MensajeException {
 		proyectD = new ProyectD(proyectDs);
 		ProyectD idP = proyectRepository.findById(proyectDs.getId())
-				.orElseThrow(() -> new NotFountException("SNOT-404-1", "ABOUT_NOT_FOUND"));
+				.orElseThrow(() -> new NotFountException(CODE,ERROR));
 		proyectD.setId(idP.getId());
 		try {
 			proyectRepository.save(proyectD);
 
 		} catch (final Exception e) {
-			LOGGER.error("INTERNAL_SERVER_ERROR");
-			throw new InternalServerErrorException("INTERNAL_SERVER_ERROR", "INTERNAL_SERVER_ERROR");
+			LOGGER.error(ERROR);
+			throw new NotFountException(CODE, ERROR);
 		}
 		return proyectDs;
 	}
 	@Transactional
 	public String deleteAbout(Long id) throws MensajeException {
 		proyectRepository.findById(id)
-				.orElseThrow(() -> new NotFountException("SNOT-404-1", "ABOUT_NOT_FOUND"));
+				.orElseThrow(() -> new NotFountException(CODE,ERROR));
 		try {
 			proyectRepository.deleteById(id);
 		} catch (Exception e) {
-			LOGGER.error("INTERNAL_SERVER_ERROR", e);
-			throw new InternalServerErrorException("INTERNAL_SERVER_ERROR", "INTERNAL_SERVER_ERROR");
+			LOGGER.error(CODE, e);
+			throw new NotFountException(CODE, ERROR);
 		}
 
 		return "DELECT SUCCESS";
