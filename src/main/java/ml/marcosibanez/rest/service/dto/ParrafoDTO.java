@@ -19,6 +19,8 @@ public class ParrafoDTO implements Serializable {
 	private String linkcodebot;
 	
 	private String linkimgbot;
+	
+	private String styles;
 
 	public ParrafoDTO(Long orders, String content) {
 		this.orders = orders;
@@ -31,6 +33,7 @@ public class ParrafoDTO implements Serializable {
 		this.content = parrafo.getContent();
 		this.linkcodebot = parrafo.getLinkcodebot();
 		this.linkimgbot = parrafo.getLinkimgbot();
+		this.styles = parrafo.getStyles();
 	}
 	
 	public ParrafoDTO() {}
@@ -69,6 +72,12 @@ public class ParrafoDTO implements Serializable {
 	}
 	public void setLinkimgbot(String linkimgbot) {
 		this.linkimgbot = linkimgbot;
+	}
+	public String getStyles() {
+		return styles;
+	}
+	public void setStyles(String styles) {
+		this.styles = styles;
 	}
 
 }

@@ -59,6 +59,7 @@ public class ArticleService {
 			parrafo.setLinkimgtop(parrafoDto.getLinkimgtop());
 			parrafo.setLinkcodebot(parrafoDto.getLinkcodebot());
 			parrafo.setLinkimgbot(parrafoDto.getLinkimgbot());
+			parrafo.setStyles(parrafoDto.getStyles());
 			parrafos.add(parrafo);
 		}
 		try {
@@ -136,6 +137,7 @@ public class ArticleService {
 				parrafoF.setLinkimgtop(parrafoDto.getLinkimgtop());
 				parrafoF.setLinkcodebot(parrafoDto.getLinkcodebot());
 				parrafoF.setLinkimgbot(parrafoDto.getLinkimgbot());
+				parrafoF.setStyles(parrafoDto.getStyles());
 				parrafos.add(parrafoF);
 			}else {
 				parrafoF.setOrder(parrafoDto.getOrders());
@@ -145,6 +147,7 @@ public class ArticleService {
 				parrafoF.setLinkimgtop(parrafoDto.getLinkimgtop());
 				parrafoF.setLinkcodebot(parrafoDto.getLinkcodebot());
 				parrafoF.setLinkimgbot(parrafoDto.getLinkimgbot());
+				parrafoF.setStyles(parrafoDto.getStyles());
 				parrafos.add(parrafoF);
 			}
 			

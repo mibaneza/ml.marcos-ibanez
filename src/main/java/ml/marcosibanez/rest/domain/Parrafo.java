@@ -30,6 +30,9 @@ public class Parrafo implements Serializable {
 	private String linkcodebot;
 
 	private String linkimgbot;
+	
+	private String styles;
+
 
 	@Column(name = "fk_article")
 	private Long fkarticle;
@@ -104,6 +107,14 @@ public class Parrafo implements Serializable {
 
 	public void setLinkimgbot(String linkimgbot) {
 		this.linkimgbot = linkimgbot;
+	}
+
+	public String getStyles() {
+		return styles;
+	}
+
+	public void setStyles(String styles) {
+		this.styles = styles;
 	}
 
 }
