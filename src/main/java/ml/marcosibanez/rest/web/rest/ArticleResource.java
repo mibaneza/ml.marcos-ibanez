@@ -24,7 +24,7 @@ import ml.marcosibanez.rest.service.dto.ArticleDTO;
 import ml.marcosibanez.rest.service.exception.MensajeException;
 import ml.marcosibanez.rest.web.rest.response.MensajeResponse;
 
-@CrossOrigin(origins = "https://marcos-ibanez.ml/")
+
 @RestController
 @RequestMapping("/api/")
 public class ArticleResource {
@@ -33,7 +33,8 @@ public class ArticleResource {
 	private static final String OK = "OK";
 	@Autowired
 	ArticleService articleService;
-	
+
+	@CrossOrigin(origins = "https://marcos-ibanez.ml/")
 	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping(value = "security/article", produces = MediaType.APPLICATION_JSON_VALUE)
 	public MensajeResponse<String> createPostArticle(@Valid @RequestBody ArticleDTO  articleDTO) throws MensajeException {
@@ -55,6 +56,8 @@ public class ArticleResource {
 		return new MensajeResponse<>(SUCCES, String.valueOf(HttpStatus.OK), OK,
 				articleService.findByLinkarticle(linkarticle));
 	}
+
+	@CrossOrigin(origins = "https://marcos-ibanez.ml/home")
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping(value = "web/initializ/", produces = MediaType.APPLICATION_JSON_VALUE)
 	public MensajeResponse<String> existsByLinkarticle() throws MensajeException {
