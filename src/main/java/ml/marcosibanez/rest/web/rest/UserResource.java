@@ -18,7 +18,7 @@ import ml.marcosibanez.rest.service.dto.UserDTO;
 import ml.marcosibanez.rest.service.exception.MensajeException;
 import ml.marcosibanez.rest.web.rest.response.MensajeResponse;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+//@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/")
 public class UserResource {

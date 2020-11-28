@@ -34,7 +34,7 @@ public class ArticleResource {
 	@Autowired
 	ArticleService articleService;
 
-	@CrossOrigin(origins = "https://marcos-ibanez.ml/")
+	//@CrossOrigin(origins = "https://marcos-ibanez.ml/")
 	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping(value = "security/article", produces = MediaType.APPLICATION_JSON_VALUE)
 	public MensajeResponse<String> createPostArticle(@Valid @RequestBody ArticleDTO  articleDTO) throws MensajeException {
@@ -57,7 +57,7 @@ public class ArticleResource {
 				articleService.findByLinkarticle(linkarticle));
 	}
 
-	@CrossOrigin(origins = "https://marcos-ibanez.ml/home")
+	//@CrossOrigin(origins = "https://marcos-ibanez.ml/home")
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping(value = "web/initializ/", produces = MediaType.APPLICATION_JSON_VALUE)
 	public MensajeResponse<String> existsByLinkarticle() throws MensajeException {
