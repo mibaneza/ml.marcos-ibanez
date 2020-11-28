@@ -47,7 +47,25 @@ public class ContactService {
 		}
 		return contacts;
 	}
-
+	
+	@Transactional
+	public String updateContact(ContactDTO contactDto, Long id) throws MensajeException {
+		Contact contactDb = null;
+		contactDb = contactRepository.findById(id)
+				.orElseThrow(() -> new NotFountException(CODE, ERROR));
+		contactDb.setEmail(contactDto.getEmail());
+		contactDb.setName(contactDto.getName());
+		contactDb.setMessage(contactDto.getMessage());
+		contactDb.setSubject(contactDto.getSubject());
+		
+		try {
+			contactRepository.save(contactDb);
+		} catch (final Exception e) {
+	
+			throw new NotFountException(CODE, ERROR);
+		}
+		return "Actualizacion exitoso ";
+	}
 
 	@Transactional
 	public String deleteContact(Long id) throws MensajeException {
