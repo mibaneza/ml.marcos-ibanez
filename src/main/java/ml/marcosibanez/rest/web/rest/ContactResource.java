@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,7 +26,7 @@ import ml.marcosibanez.rest.service.dto.ContactDTO;
 import ml.marcosibanez.rest.service.exception.MensajeException;
 import ml.marcosibanez.rest.web.rest.response.MensajeResponse;
 
-//@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/")
 public class ContactResource {
@@ -50,17 +51,18 @@ public class ContactResource {
 	}
 	
 	//@PreAuthorize("hasRole('ADMIN')")
-	@PutMapping(value = "web/contact", produces = MediaType.APPLICATION_JSON_VALUE)
-	public MensajeResponse<String> putContact(@Valid @RequestBody ContactDTO contactDto
-			, @RequestParam Long id) throws MensajeException {
+	@PutMapping(value = "web/contact/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public MensajeResponse<String> putContact(@PathVariable(value="id")Long id,
+	    @Valid @RequestBody ContactDTO contactDto
+			) throws MensajeException {
 		return new MensajeResponse<>(SUCCES, String.valueOf(HttpStatus.OK), OK,
 				contactService.updateContact(contactDto, id));
 	}	
 		
 	//@PreAuthorize("hasRole('ADMIN')")
 	@ResponseStatus(HttpStatus.OK)
-	@DeleteMapping(value = "web/contact", produces = MediaType.APPLICATION_JSON_VALUE)
-	public MensajeResponse<String> deleteContact(@RequestParam Long id) throws MensajeException {
+	@DeleteMapping(value = "web/contact/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public MensajeResponse<String> deleteContact(@PathVariable(value="id")Long id) throws MensajeException {
 		return new MensajeResponse<>(SUCCES, String.valueOf(HttpStatus.OK), OK,
 				contactService.deleteContact(id));
 	}
